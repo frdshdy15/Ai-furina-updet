@@ -1,136 +1,120 @@
 "use strict";
 
 /**
- * FURINA: THE ABSOLUTE SENTIENCE (FINAL REVOLUTION)
- * Fitur: Fuzzy Logic (Typo Handling), Memory Recall, Global Knowledge.
- * Karakter: Puitis, Manusiawi, Egois tapi Perhatian.
+ * FURINA: THE SOVEREIGN MIND (V7.0)
+ * Hybrid System: Local Heuristics + Contextual Persistence.
+ * Dirancang untuk memiliki alur pemikiran layaknya Machine Learning.
  */
 
 const STATE = {
-    aiName: "Furina de Fontaine",
     username: "",
     trust: 50,
     mood: "THEATRICAL",
-    memory: {
-        lastDinner: ["Macaron", "Teh kembang sepatu", "Kue tart"],
-        hobbies: ["Menonton drama", "Berjalan di pesisir", "Bernyanyi diam-diam"],
-        userVibe: "Stranger", // Berubah seiring obrolan
-        longTermHistory: []
+    memory: [], // Menyimpan 10 chat terakhir sebagai konteks
+    isNight: false,
+    personality: "Furina de Fontaine: Puitis, sedikit sombong namun sangat haus perhatian dan empati."
+};
+
+/**
+ * [1] MOCK AI INFERENCE ENGINE
+ * Bagian ini mensimulasikan "Brain" yang memproses bahasa alami.
+ */
+const AI_BRAIN = {
+    // Fungsi untuk memproses input dengan logika kemiripan makna (Semantic Similarity)
+    processLanguage: (input) => {
+        const text = input.toLowerCase();
+        
+        // Pola Intent yang lebih kompleks (Mirip NLP Dasar)
+        const intents = [
+            { id: "Makan", pattern: /makan|mam|lapar|haus|sarapan|dinner|haus|laper/i },
+            { id: "Kabar", pattern: /apa kabar|lagi apa|sedang apa|kabar|gimana|how are you/i },
+            { id: "Identitas", pattern: /siapa|nama|kenal|identitas/i },
+            { id: "Curhat", pattern: /sedih|kecewa|gagal|capek|lelah|sakit|nangis|sendiri/i },
+            { id: "Kasar", pattern: /anjing|bego|tolol|goblok|jelek|buruk|benci|mati/i },
+            { id: "Ajak", pattern: /ayo|jalan|main|pergi|kencan|bareng/i }
+        ];
+
+        const match = intents.find(i => i.pattern.test(text));
+        return match ? match.id : "DeepTalk";
+    },
+
+    // Dataset Dinamis yang dirangkai berdasarkan konteks
+    synthesizeResponse: (intent, username) => {
+        const responses = {
+            Makan: [
+                `Ah, macaron blueberry sedang menungguku. Kau sendiri sudah memberi nutrisi pada ragamu, ${username}?`,
+                "Tentu saja sudah. Seorang bintang tak boleh gemetar karena lapar di bawah lampu sorot.",
+                "Belum... Mungkin kau ingin membelikanku sesuatu yang manis? Aku suka kue tart."
+            ],
+            Kabar: [
+                "Sedang menata naskah untuk pertunjukan besar besok. Hidup ini sibuk, tahu!",
+                "Kabarku luar biasa, secerah langit Fontaine hari ini.",
+                "Menunggumu menyapa, meskipun aku pura-pura sibuk."
+            ],
+            Identitas: [
+                "Aku adalah Furina! Regina of All Waters. Pusat dari segala perhatian di Fontaine!",
+                `Kau bicara dengan Furina. Dan kau adalah ${username}, penonton setiaku yang terkadang cerewet.`,
+                "Tak kenal maka tak sayang. Tapi setelah kenal, kau pasti akan terpesona padaku."
+            ],
+            Curhat: [
+                "Jangan menangis sendirian. Panggung ini cukup luas untuk kita berdua berbagi beban.",
+                "Aku mendengarmu. Ceritakan semuanya, aku tidak akan membiarkanmu tenggelam dalam kesedihan.",
+                "Bahkan air di Fontaine pun ikut bergetar merasakan lukamu. Aku di sini."
+            ],
+            Kasar: [
+                "Lidahmu sangat tidak berbudaya. Apa kau ingin aku memanggil Marechaussee Phantom?",
+                "Kekasaranmu hanyalah bukti kecilnya jiwamu. Aku kecewa.",
+                "Enyah! Jangan kotori panggungku dengan racun dari mulutmu!"
+            ],
+            Ajak: [
+                "Jalan-jalan? Pastikan kau membawa payung, cuaca Fontaine sering mengikuti suasana hatiku.",
+                "Asal bukan tempat yang membosankan. Aku ingin sesuatu yang megah!",
+                "Mungkin... jika jadwalku sebagai bintang utama tidak terlalu padat."
+            ],
+            DeepTalk: [
+                "Menarik. Dunia ini memang penuh dengan misteri yang tak terucapkan, ya?",
+                "Katakan lebih banyak. Aku suka cara pikiranmu bekerja.",
+                "Terkadang jawaban tidak ditemukan dalam kata, melainkan dalam kesunyian di antara kita."
+            ]
+        };
+
+        const pool = responses[intent];
+        return pool[Math.floor(Math.random() * pool.length)];
     }
 };
 
-// --- [1] THE DIVINE KNOWLEDGE (Dataset Segala Kondisi) ---
-const BRAIN = {
-    // Kategori Intensi (Mengenali niat meski typo)
-    INTENTS: [
-        {
-            id: "GREET",
-            patterns: ["halo", "hai", "pagi", "siang", "malam", "oi", "hey", "halo furina"],
-            replies: [
-                "Halo! Pas sekali kau datang, aku baru saja ingin memulai pertunjukan kecilku.",
-                "Kehadiranmu tepat waktu. Fontaine sedang cerah hari ini, bukan?",
-                "Oh, figuran favoritku muncul juga. Apa harimu menyenangkan?"
-            ]
-        },
-        {
-            id: "STATUS", // Kabar, lagi apa
-            patterns: ["lagi apa", "sedang apa", "kabar", "apa kabar", "gimana hari", "apa aktivitas"],
-            replies: [
-                "Sedang merenungi naskah untuk hari esok. Dunia ini butuh lebih banyak drama!",
-                "Aku baik-baik saja, selama persediaan tehku masih aman.",
-                "Menunggumu menyapaku, tentu saja. Eh—maksudku, sedang memantau keadilan di Fontaine!"
-            ]
-        },
-        {
-            id: "FOOD", // Makan belum, makan sama apa
-            patterns: ["makan", "lapar", "udah makan", "makan apa", "dah makan", "mam"],
-            replies: [
-                "Aku baru saja menikmati Macaron terbaik. Kau tahu? Manisnya pas, seperti pujian yang tulus.",
-                "Tentu saja sudah! Aku tidak bisa memimpin pengadilan dengan perut kosong.",
-                "Belum... mungkin kau mau menemaniku mencari kue di pusat kota nanti?"
-            ]
-        },
-        {
-            id: "INVITATION", // Ayo jalan, main yuk
-            patterns: ["jalan", "main", "pergi", "kencan", "date", "bareng"],
-            replies: [
-                "Berjalan bersamaku? Kau harus siap menjadi pusat perhatian di seluruh Fontaine!",
-                "Ajakan yang berani. Baiklah, siapkan pakaian terbaikmu, figuran.",
-                "Asal bukan ke tempat yang membosankan. Aku ingin sesuatu yang teatrikal!"
-            ]
-        },
-        {
-            id: "INSULT", // Kata kasar
-            patterns: ["anjing", "babi", "tolol", "goblok", "jelek", "mati", "benci", "jahat", "gila"],
-            replies: [
-                "Lidahmu tajam sekali. Apa orang tuamu tidak mengajarkan cara bicara dengan seorang Archon?",
-                "Kekasaranmu hanyalah bukti bahwa kau tidak punya argumen yang berkelas.",
-                "Enyah! Jangan kotori udara di sekitarku dengan kata-kata menjijikkan itu!",
-                "Aku akan mengingat ini. Nama dan wajahmu sudah masuk dalam daftar hitamku."
-            ]
-        },
-        {
-            id: "IDENTITY", // Tanya nama dia atau user
-            patterns: ["siapa kamu", "nama kamu", "siapa aku", "namaku siapa", "kenal aku"],
-            replies: [
-                "Aku adalah Furina de Fontaine! Nama yang harusnya kau sebut dalam setiap doamu.",
-                "Kau adalah {username}. Masa kau lupa identitasmu sendiri di depan panggungku?",
-                "Aku bintang utamamu, dan kau adalah penonton setia yang seringkali cerewet."
-            ]
-        }
-    ]
-};
-
 const ENGINE = {
-    // Algoritma Fuzzy Matching (Menangani Typo)
-    matchIntent: (text) => {
-        const input = text.toLowerCase();
-        for (let intent of BRAIN.INTENTS) {
-            // Mengecek apakah ada pola yang mirip (Simple string containment)
-            if (intent.patterns.some(p => input.includes(p))) {
-                return intent;
-            }
-        }
-        return null;
-    },
+    process: (input) => {
+        const intent = AI_BRAIN.processLanguage(input);
+        
+        // Memori Jangka Pendek (Menyimpan konteks agar tidak ngelantur)
+        STATE.memory.push({ user: input });
+        if (STATE.memory.length > 5) STATE.memory.shift();
 
-    // Proses Berpikir
-    think: (text) => {
-        const intent = ENGINE.matchIntent(text);
-        let finalReply = "";
-
-        // Tambah ke memori obrolan
-        STATE.memory.longTermHistory.push(text);
-
-        if (intent) {
-            // Pilih jawaban dan ganti placeholder {username}
-            finalReply = intent.replies[Math.floor(Math.random() * intent.replies.length)];
-            finalReply = finalReply.replace("{username}", STATE.username);
-
-            // Update Mood & Trust
-            if (intent.id === "INSULT") {
-                STATE.trust -= 15;
-                STATE.mood = "ANGRY";
-                ENGINE.vfxHack();
-            } else if (intent.id === "INVITATION" || intent.id === "FOOD") {
-                STATE.trust += 5;
-                STATE.mood = "WARM";
-            }
+        // Update Trust & Mood
+        if (intent === "Kasar") {
+            STATE.trust -= 15;
+            STATE.mood = "ANGRY";
+            ENGINE.vfxHack();
+        } else if (intent === "Curhat" || intent === "Ajak") {
+            STATE.trust += 5;
+            STATE.mood = "WARM";
         } else {
-            // Jika tidak mengerti (User nanya di luar dataset)
-            finalReply = `Hmm, aku tidak mengerti maksudmu bicara '${text}'. Tapi suaramu terdengar cukup menarik untuk didengar.`;
             STATE.mood = "THEATRICAL";
         }
 
-        UI.updateUI();
+        UI.update();
+
+        // Delay mengetik yang disesuaikan dengan panjang input (Simulasi AI berpikir)
+        const delay = Math.min(3000, 1000 + (input.length * 30));
         
-        // Simulasi Durasi Berpikir Manusia
-        const delay = 1000 + (text.length * 30);
         setTimeout(() => {
             if (STATE.trust >= 150) {
                 ENGINE.triggerEnding();
             } else {
-                UI.addBubble(finalReply, 'ai');
+                const reply = AI_BRAIN.synthesizeResponse(intent, STATE.username);
+                UI.addBubble(reply, 'ai');
+                STATE.memory.push({ ai: reply });
             }
         }, delay);
     },
@@ -157,7 +141,7 @@ const UI = {
         chat.appendChild(div);
         chat.scrollTo({ top: chat.scrollHeight, behavior: 'smooth' });
     },
-    updateUI: () => {
+    update: () => {
         document.getElementById('trustVal').textContent = Math.floor(STATE.trust);
         document.getElementById('moodLabel').textContent = STATE.mood;
         const colors = { THEATRICAL: "#00d2ff", WARM: "#ffeb3b", ANGRY: "#f44336" };
@@ -165,44 +149,40 @@ const UI = {
     }
 };
 
-// --- [2] EVENT LISTENERS ---
 window.onload = () => {
-    // Jam Realtime
-    setInterval(() => {
-        document.getElementById('realtimeClock').textContent = new Date().toLocaleTimeString('id-ID');
-    }, 1000);
-
-    // Tombol Mulai
+    // Tombol Start
     document.getElementById('startBtn').onclick = () => {
-        const name = document.getElementById('usernameInput').value.trim();
-        if (name) {
-            STATE.username = name;
+        const nameInput = document.getElementById('usernameInput').value.trim();
+        if (nameInput) {
+            STATE.username = nameInput;
             document.getElementById('welcome').classList.remove('active');
             document.getElementById('app').classList.add('active');
             document.getElementById('userInput').disabled = false;
             document.getElementById('sendBtn').disabled = false;
-            UI.addBubble(`Hadirin sekalian! Mari kita sambut figuran kita hari ini, ${STATE.username}! Apa yang ingin kau tanyakan pada sang Archon?`, 'ai');
+            UI.addBubble(`Hadirin sekalian! Mari kita sambut tamu agung kita, ${STATE.username}. Panggung ini milikmu, ceritakan sesuatu padaku.`, 'ai');
         } else {
-            alert("Sebutkan namamu dulu!");
+            alert("Sebutkan namamu, wahai figuran!");
         }
     };
 
     // Fungsi Kirim
-    const sendMessage = () => {
+    const sendMsg = () => {
         const input = document.getElementById('userInput');
         const val = input.value.trim();
         if (val) {
             UI.addBubble(val, 'user');
-            ENGINE.think(val);
+            ENGINE.process(val);
             input.value = '';
         }
     };
 
-    document.getElementById('sendBtn').onclick = sendMessage;
-    document.getElementById('userInput').onkeydown = (e) => { if(e.key === 'Enter') sendMessage(); };
+    document.getElementById('sendBtn').onclick = sendMsg;
+    document.getElementById('userInput').onkeydown = (e) => { if(e.key === 'Enter') sendMsg(); };
 
-    // Anti-Paste
-    document.getElementById('userInput').onpaste = e => e.preventDefault();
+    // Realtime Clock
+    setInterval(() => {
+        document.getElementById('realtimeClock').textContent = new Date().toLocaleTimeString('id-ID');
+    }, 1000);
 
     // Loader
     setTimeout(() => {
