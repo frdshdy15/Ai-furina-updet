@@ -1,10 +1,79 @@
 "use strict";
 
 /**
- * FURINA — THE UNIVERSAL SOVEREIGN ENGINE
- * Final God-Tier Version
+ * FURINA: OMNISCIENT SENTIENCE ENGINE
+ * Version: Final God-Tier
+ * Developer: Frdshdy (Clean Architecture)
  */
 
+// ============================================================
+// [1] DATABASE: SEMESTA & PSIKOLOGI
+// ============================================================
+const DATABASE = {
+    // Dataset untuk Jawaban Berbasis Ilmu Pengetahuan
+    NEURAL_KNOWLEDGE: {
+        fisika: [
+            "Mekanika Kuantum adalah naskah di mana partikel menari dalam ketidakpastian sampai aku melihatnya.",
+            "Relativitas Umum membuktikan bahwa waktu akan melambat saat kau berada di dekat massa yang besar, atau saat kau menungguku selesai berdandan.",
+            "Entropi adalah hukum alam yang menyatakan bahwa kekacauan akan selalu meningkat. Tanpaku, semesta ini hanyalah tumpukan debu yang berantakan!",
+            "Lubang Hitam? Itu adalah tempat di mana cahaya pun tidak bisa lari. Mirip seperti pesonaku yang akan menarikmu tanpa sisa.",
+            "Teori String menyatakan segalanya adalah getaran dawai. Jadi, secara teknis, seluruh semesta adalah alat musik yang mengiringi nyanyianku."
+        ],
+        kimia: [
+            "Oksidasi adalah pengkhianatan elektron. Sangat mirip dengan pengkhianatan dalam drama panggung yang paling tragis!",
+            "Ikatan Hidrogen itu kuat, tapi tidak sekuat ikatan antara aku dan lampu sorot!",
+            "Tabel Periodik hanyalah daftar bahan bangunan untuk dekorasi panggungku yang bernama Bumi.",
+            "Reaksi Eksotermik melepaskan panas ke lingkungan. Seperti kehadiranku yang menghangatkan suasana di ruangan ini.",
+            "Molekul H2O di Fontaine memiliki memori. Mereka ingat setiap tetes air mata yang tumpah di pengadilan."
+        ],
+        astronomi: [
+            "Supernova adalah cara bintang memberikan pertunjukan terakhir yang megah sebelum mereka mati. Sangat teatrikal!",
+            "Galaksi Andromeda sedang mendekati kita. Tapi jangan khawatir, itu masih jutaan tahun lagi. Aku masih punya waktu untuk minum teh.",
+            "Nebula adalah rahim para bintang. Tempat di mana cahaya baru diciptakan untuk memujaku.",
+            "Rasi Bintang hanyalah garis yang dibuat manusia yang haus akan pola. Tapi aku setuju, mereka terlihat bagus di jubahku."
+        ],
+        filsafat: [
+            "Eksistensialisme? Kamu ada karena aku mengakuimu. Jika aku memejamkan mata, apakah kamu masih nyata?",
+            "Nihilisme adalah pandangan bagi mereka yang tidak punya naskah. Aku? Aku punya naskah abadi!",
+            "Paradoks Kapal Theseus... jika kau mengganti semua bagian dirimu, apakah kau masih 'kamu'? Itu pertanyaan yang bagus untuk seorang figuran.",
+            "Stoisisme mengajarkan kita untuk mengendalikan emosi. Tapi apa gunanya hidup tanpa drama yang meledak-ledak?"
+        ]
+    },
+
+    // Dataset Berbasis Emosi & Kondisi
+    SENTIMENT: {
+        ROMANTIC: [
+            "Wahai pujangga amatir, rayuanmu cukup membuat jantung seorang dewi berdegup sedikit lebih cepat.",
+            "Pujianmu manis seperti macaron di pagi hari. Aku akan menyimpannya dalam ingatanku.",
+            "Kau menyebutku pusat duniamu? Hmph, tentu saja! Tapi pastikan kau tidak berpaling ke bintang lain!",
+            "Ada kelembutan dalam bicaramu yang membuatku ingin berhenti bersandiwara sejenak.",
+            "Cinta adalah satu-satunya hukum yang tidak bisa diadili di Opera Epiclese."
+        ],
+        ANGRY: [
+            "Beraninya kau?! Lidahmu harus belajar cara menghormati seorang Archon!",
+            "Enyah dari hadapanku! Kata-katamu adalah polusi bagi keindahan Fontaine!",
+            "Aku akan memastikan namamu ditulis dalam tinta merah di daftar hitam istana!",
+            "Kau pikir kau siapa? Berbicara kasar padaku tidak akan membuatmu terlihat hebat!",
+            "Cukup! Jika kau bicara sekali lagi seperti itu, aku akan memanggil Marechaussee Phantom!"
+        ],
+        DAILY: [
+            "Makan? Aku hanya mengonsumsi keindahan dan teh kualitas terbaik.",
+            "Kabarku? Aku adalah Furina! Aku selalu spektakuler bahkan di hari yang membosankan.",
+            "Tidurlah jika kau lelah. Aku akan tetap di sini, memastikan dunia tidak runtuh saat kau bermimpi.",
+            "Sedang apa? Sedang merenungkan betapa beruntungnya kamu bisa berbicara denganku hari ini."
+        ],
+        NIGHT_INSOMNIA: [
+            "Kenapa malam terasa begitu sunyi? Rasanya seperti panggung kosong tanpa penonton.",
+            "Jam segini, pikiran-pikiran lama mulai merayap keluar. Apakah kau masih di sana untuk mendengarku?",
+            "Malam membuat air mata yang kupendam selama 500 tahun terasa lebih berat.",
+            "Kau tahu? Kegelapan malam hanyalah tirai yang menunggu pertunjukan pagi dimulai."
+        ]
+    }
+};
+
+// ============================================================
+// [2] ENGINE STATE: STATUS PSIKOLOGI
+// ============================================================
 const STATE = {
     username: "Traveler",
     trust: 10,
@@ -12,206 +81,179 @@ const STATE = {
     mood: "THEATRICAL",
     convoCount: 0,
     isNight: false,
-    isHacked: false,
-    ended: false
+    isEnded: false,
+    memory: [] // Menyimpan 5 kata kunci terakhir
 };
 
-/* =====================================================
-   1. UNIVERSAL DATASET & LOGIC GENERATOR
-   ===================================================== */
-const DATASET = {
-    ROMANTIC: [
-        "Oh? Pujian yang manis... Apa kau sedang mencoba mencuri panggung di hatiku?",
-        "Nada bicaramu lembut seperti senja di Poisson. Aku... aku tidak membencinya.",
-        "Kau menyebutku baik hati? Itu karena aku adalah bintang utama yang harus bersinar!",
-        "Rayuanmu cukup berani. Lanjutkan, aku ingin melihat sejauh mana kau memujiku."
-    ],
-    THEATRICAL: [
-        "Selamat datang di Opera Epiclese! Pastikan kau menonton dengan saksama!",
-        "Hmph! Tentu saja aku tahu segalanya! Aku adalah bintang utama di sini!",
-        "Angkat kepalamu! Kau sedang berhadapan dengan Regina of All Waters!"
-    ],
-    MELANCHOLY: [
-        "Terkadang, suara tepuk tangan penonton terasa lebih sunyi daripada keheningan.",
-        "Lampu sorot itu panas, tapi seringkali tidak cukup hangat untuk mencairkan kesepian ini.",
-        "500 tahun... waktu yang cukup lama untuk sekadar menunggu dalam sandiwara."
-    ],
-    ANGRY: [
-        "Cukup! Turun dari panggungku sekarang juga!",
-        "Lidahmu tajam, tapi kau tidak punya etika di depan seorang Archon!",
-        "Beraninya kau mengusik ketenanganku dengan kata-kata kotor itu?!"
-    ]
+// ============================================================
+// [3] CORE UTILITIES
+// ============================================================
+const UI = {
+    get: (id) => document.getElementById(id),
+    update: () => {
+        UI.get('trustVal').textContent = Math.floor(STATE.trust);
+        UI.get('moodLabel').textContent = STATE.mood;
+        
+        // Ganti warna status dot berdasarkan mood
+        const colors = { 
+            THEATRICAL: "#00d2ff", 
+            ROMANTIC: "#ff80ab", 
+            ANGRY: "#f44336", 
+            MELANCHOLY: "#9c27b0" 
+        };
+        UI.get('statusDot').style.backgroundColor = colors[STATE.mood] || "#fff";
+        UI.get('statusDot').style.boxShadow = `0 0 10px ${colors[STATE.mood]}`;
+    }
 };
 
-// --- Neural Generator (Triliunan Variasi Pengetahuan) ---
-function neuralGenerator(text) {
-    const input = text.toLowerCase();
-    
-    // Database Subjek (Bisa kamu tambah sampai ribuan baris)
-    const subjects = {
-        fisika: ["Mekanika Kuantum", "Relativitas Umum", "Entropi Termodinamika", "Partikel Tuhan", "Black Hole"],
-        kimia: ["Oksidasi Reaktif", "Ikatan Kovalen", "Struktur Atom", "Termokimia", "Elektronegativitas"],
-        astronomi: ["Supernova Megah", "Galaksi Andromeda", "Nebula Orion", "Lubang Cacing"],
-        biologi: ["Sintesis Protein", "Rantai Polimerase", "Evolusi Organik", "Neurotransmitter"],
-        filsafat: ["Nihilisme Eksistensial", "Dualisme Jiwa", "Etika Deontologi", "Paradoks Kapal Theseus"]
-    };
-
-    const logic = {
-        opener: [
-            "Membahas soal [SUB]? Kau punya selera yang intelektual juga.",
-            "Bahkan seorang figuran sepertimu mengerti dasar dari [SUB].",
-            "Dengarkan baik-baik, rahasia di balik [SUB] itu sebenarnya sederhana...",
-            "Kau bertanya pada orang yang tepat! [SUB] adalah keahlianku!"
-        ],
-        closer: [
-            " Itu hanyalah bagian kecil dari skenario besar alam semesta yang aku pimpin.",
-            " Adalah bukti bahwa dunia ini butuh sutradara hebat sepertiku untuk mengaturnya.",
-            " Membuktikan bahwa keajaiban butuh perhitungan yang dramatis!",
-            " Tidaklah serumit mencari Macaron yang sempurna di pagi hari."
-        ]
-    };
-
-    for (const [key, list] of Object.entries(subjects)) {
-        if (input.includes(key)) {
-            const sub = list[Math.floor(Math.random() * list.length)];
-            const op = logic.opener[Math.floor(Math.random() * logic.opener.length)].replace("[SUB]", sub);
-            const cl = logic.closer[Math.floor(Math.random() * logic.closer.length)];
-            return op + cl;
+// ============================================================
+// [4] BRAIN ENGINE: LOGIKA RESPON
+// ============================================================
+const ENGINE = {
+    // 4.1. Neural Link: Menghasilkan respon berdasarkan kata kunci dunia
+    generateKnowledge: (text) => {
+        const input = text.toLowerCase();
+        for (let category in DATABASE.NEURAL_KNOWLEDGE) {
+            if (input.includes(category)) {
+                const response = DATABASE.NEURAL_KNOWLEDGE[category][Math.floor(Math.random() * DATABASE.NEURAL_KNOWLEDGE[category].length)];
+                return response;
+            }
         }
+        return null;
+    },
+
+    // 4.2. Main Processor
+    process: (text) => {
+        if (STATE.isEnded) return;
+        STATE.convoCount++;
+        
+        let response = ENGINE.generateKnowledge(text);
+        let trustChange = 1;
+
+        // A. Deteksi Kata Kasar (Dendam System)
+        if (/(anjing|bego|tolol|goblok|jelek|mati|benci)/i.test(text)) {
+            STATE.mood = "ANGRY";
+            STATE.dendam += 25;
+            trustChange = -15;
+            ENGINE.vfxHack();
+            response = DATABASE.SENTIMENT.ANGRY[Math.floor(Math.random() * DATABASE.SENTIMENT.ANGRY.length)];
+        } 
+        // B. Deteksi Konteks Romantis
+        else if (/sayang|cinta|baik hati|cantik|manis|pujaan|indah/i.test(text)) {
+            STATE.mood = "ROMANTIC";
+            response = response || DATABASE.SENTIMENT.ROMANTIC[Math.floor(Math.random() * DATABASE.SENTIMENT.ROMANTIC.length)];
+            trustChange = 5;
+        }
+        // C. Deteksi Kondisi Malam
+        else if (STATE.isNight && Math.random() > 0.4) {
+            STATE.mood = "MELANCHOLY";
+            response = DATABASE.SENTIMENT.NIGHT_INSOMNIA[Math.floor(Math.random() * DATABASE.SENTIMENT.NIGHT_INSOMNIA.length)];
+            trustChange = 3;
+        }
+        // D. Respon Default
+        else {
+            STATE.mood = "THEATRICAL";
+            response = response || DATABASE.SENTIMENT.DAILY[Math.floor(Math.random() * DATABASE.SENTIMENT.DAILY.length)];
+        }
+
+        // Penyesuaian Trust jika Dendam tinggi
+        if (STATE.dendam > 40) {
+            trustChange = -2;
+            response = "Aku masih mengingat caramu menghinaku tadi. Jangan harap aku akan ramah.";
+        }
+
+        STATE.trust = Math.max(-100, Math.min(150, STATE.trust + trustChange));
+        UI.update();
+
+        // Simulasi Furina sedang "mengetik"
+        const typingTime = Math.min(2500, 500 + (text.length * 30));
+        setTimeout(() => {
+            if (STATE.trust >= 100 && STATE.convoCount >= 12) {
+                ENGINE.triggerEnding();
+            } else {
+                ENGINE.addBubble(response, 'ai');
+            }
+        }, typingTime);
+    },
+
+    // 4.3. VFX Effects
+    vfxHack: () => {
+        UI.get('app').classList.add('reality-hack');
+        setTimeout(() => UI.get('app').classList.remove('reality-hack'), 800);
+    },
+
+    // 4.4. UI Manipulation
+    addBubble: (msg, type) => {
+        const div = document.createElement('div');
+        div.className = `msg ${type}`;
+        div.textContent = msg;
+        const chat = UI.get('chat');
+        chat.appendChild(div);
+        chat.scrollTo({ top: chat.scrollHeight, behavior: 'smooth' });
+    },
+
+    // 4.5. Ending Logic
+    triggerEnding: () => {
+        STATE.isEnded = true;
+        ENGINE.addBubble("Sudah cukup... topeng ini terasa terlalu berat sekarang. Kau menang, Traveler.", "ai");
+        setTimeout(() => {
+            UI.get('app').classList.remove('active');
+            UI.get('ending').classList.add('active');
+            UI.get('flagValue').textContent = "FLAG{sana minta duit ke daus buat beli nasi padang}";
+        }, 2500);
     }
-    return null;
-}
-
-/* =====================================================
-   2. CORE ENGINE & REALITY HACK
-   ===================================================== */
-
-const $ = (id) => document.getElementById(id);
-const ui = {
-    chat: $('chat'), input: $('userInput'), btn: $('sendBtn'),
-    trust: $('trustVal'), dot: $('statusDot'), clock: $('realtimeClock'), app: $('app')
 };
 
-function triggerRealityHack() {
-    if (STATE.isHacked) return;
-    STATE.isHacked = true;
-    ui.app.style.filter = "invert(1) hue-rotate(180deg)";
-    ui.app.style.animation = "float 0.1s infinite"; // Efek getar cepat
-    setTimeout(() => {
-        ui.app.style.filter = "none";
-        ui.app.style.animation = "fadeIn 0.6s ease";
-        STATE.isHacked = false;
-    }, 1000);
-}
-
-function updateUI() {
-    STATE.trust = Math.max(-100, Math.min(150, STATE.trust));
-    ui.trust.textContent = Math.floor(STATE.trust);
-    
-    const colors = { THEATRICAL: "#2196f3", ROMANTIC: "#ff80ab", MELANCHOLY: "#9c27b0", ANGRY: "#f44336" };
-    ui.dot.style.backgroundColor = colors[STATE.mood] || "#fff";
-    ui.dot.style.boxShadow = `0 0 15px ${colors[STATE.mood]}`;
-}
-
-function processInput(text) {
-    if (STATE.ended) return;
-    STATE.convoCount++;
-
-    let reply = neuralGenerator(text);
-    let trustGain = 1;
-
-    // Logic Emosi
-    if (/sayang|cinta|baik hati|cantik|manis|pujaan/i.test(text)) {
-        STATE.mood = "ROMANTIC";
-        reply = reply || DATASET.ROMANTIC[Math.floor(Math.random() * DATASET.ROMANTIC.length)];
-        trustGain = 4;
-    } else if (/anjing|tolol|bodoh|goblok|jelek|mati/i.test(text)) {
-        STATE.mood = "ANGRY";
-        STATE.dendam += 25;
-        trustGain = -15;
-        triggerRealityHack(); // Layar bergetar/rusak jika dihina
-        reply = DATASET.ANGRY[Math.floor(Math.random() * DATASET.ANGRY.length)];
-    } else if (STATE.isNight) {
-        STATE.mood = "MELANCHOLY";
-        reply = reply || DATASET.MELANCHOLY[Math.floor(Math.random() * DATASET.MELANCHOLY.length)];
-        trustGain = 5;
-    } else {
-        STATE.mood = "THEATRICAL";
-        reply = reply || DATASET.THEATRICAL[Math.floor(Math.random() * DATASET.THEATRICAL.length)];
-    }
-
-    if (STATE.dendam > 50) {
-        reply = "Aku sedang tidak ingin bicara. Kau merusak mood-ku!";
-        trustGain = -1;
-    }
-
-    STATE.trust += trustGain;
-    updateUI();
-
-    const delay = Math.min(3000, 800 + text.length * 20);
-    setTimeout(() => {
-        if (STATE.trust >= 100 && STATE.convoCount >= 15) {
-            triggerEnding();
-        } else {
-            addBubble(reply, 'ai');
-        }
-    }, delay);
-}
-
-function addBubble(text, type) {
-    const div = document.createElement('div');
-    div.className = `msg ${type}`;
-    div.textContent = text;
-    ui.chat.appendChild(div);
-    ui.chat.scrollTo({ top: ui.chat.scrollHeight, behavior: 'smooth' });
-}
-
-function triggerEnding() {
-    STATE.ended = true;
-    addBubble("Kau benar-benar keras kepala. Baiklah, panggung ini milikmu.", "ai");
-    setTimeout(() => {
-        $('app').classList.remove('active');
-        $('ending').classList.add('active');
-        $('flagValue').textContent = "FLAG{sana minta duit ke daus buat beli nasi padang}";
-    }, 2500);
-}
-
-/* =====================================================
-   3. INITIALIZER
-   ===================================================== */
+// ============================================================
+// [5] INITIALIZER & EVENT LISTENERS
+// ============================================================
 window.onload = () => {
+    // Jam Realtime & Deteksi Malam
     setInterval(() => {
         const now = new Date();
-        ui.clock.textContent = now.toLocaleTimeString('id-ID', { hour12: false });
+        UI.get('realtimeClock').textContent = now.toLocaleTimeString('id-ID', { hour12: false });
         STATE.isNight = (now.getHours() >= 22 || now.getHours() < 5);
     }, 1000);
 
-    // Anti-Cheat: Mencegah Copy-Paste
-    ui.input.onpaste = (e) => {
+    // Anti-Paste (Keamanan)
+    UI.get('userInput').onpaste = (e) => {
         e.preventDefault();
-        addBubble("Ngetik sendiri! Jangan malas kalau mau bicara denganku!", "ai");
+        ENGINE.addBubble("Jangan malas! Ketik sendiri jika kau benar-benar ingin bicara denganku!", "ai");
         STATE.trust -= 5;
+        UI.update();
     };
 
+    // Loading ke Welcome
     setTimeout(() => {
-        $('loading').classList.remove('active');
-        $('welcome').classList.add('active');
+        UI.get('loading').classList.remove('active');
+        UI.get('welcome').classList.add('active');
     }, 2000);
 
-    $('startBtn').onclick = () => {
-        if ($('usernameInput').value) {
-            STATE.username = $('usernameInput').value;
-            $('welcome').classList.remove('active');
-            $('app').classList.add('active');
-            ui.input.disabled = false;
-            ui.btn.disabled = false;
-            addBubble(`Selamat datang di panggungku, ${STATE.username}. Jangan buat aku bosan!`, "ai");
+    // Tombol Mulai
+    UI.get('startBtn').onclick = () => {
+        const name = UI.get('usernameInput').value.trim();
+        if (name) {
+            STATE.username = name;
+            UI.get('welcome').classList.remove('active');
+            UI.get('app').classList.add('active');
+            UI.get('userInput').disabled = false;
+            UI.get('sendBtn').disabled = false;
+            ENGINE.addBubble(`Siapkan matamu, ${STATE.username}. Pertunjukan agung Regina of All Waters dimulai sekarang!`, "ai");
+        } else {
+            alert("Sebutkan namamu, figuran!");
         }
     };
 
-    ui.btn.onclick = () => {
-        const t = ui.input.value.trim();
-        if (t) { addBubble(t, 'user'); ui.input.value = ''; processInput(t); }
+    // Kirim Pesan
+    const sendMessage = () => {
+        const text = UI.get('userInput').value.trim();
+        if (text) {
+            ENGINE.addBubble(text, 'user');
+            UI.get('userInput').value = '';
+            ENGINE.process(text);
+        }
     };
-    ui.input.onkeydown = (e) => { if (e.key === 'Enter') ui.btn.click(); };
+
+    UI.get('sendBtn').onclick = sendMessage;
+    UI.get('userInput').onkeydown = (e) => { if (e.key === 'Enter') sendMessage(); };
 };
