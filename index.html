@@ -1,98 +1,65 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Furina — Trial of Trust</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Furina: The Final Judgment</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-  <div id="loading" class="screen active">
-    <div class="loading-box">
-      <div class="loading-title">FURINA</div>
-      <div class="loading-sub">System Initialization</div>
-      <div class="loading-bar">
-        <div class="loading-fill"></div>
-      </div>
-      <div class="loading-text">Memuat protokol psikologi…</div>
+    <div id="loading" class="screen active">
+        <div class="loader"></div>
+        <p>Mempersiapkan Panggung Opera...</p>
     </div>
-  </div>
 
-  <div id="welcome" class="screen">
-    <div class="welcome-box">
-      <div class="title">FURINA</div>
-      <div class="subtitle">Trial of Trust v2.0</div>
-      
-      <input 
-        id="usernameInput" 
-        type="text" 
-        placeholder="Siapa namamu?" 
-        autocomplete="off" 
-        maxlength="12"
-      >
-
-      <button id="startBtn">MULAI SIMULASI</button>
-
-      <div class="hint">
-        <p>Furina merespon waktu dan kesabaran.</p>
-        <p>Jangan biarkan dia menunggu terlalu lama.</p>
-      </div>
-    </div>
-  </div>
-
-  <div id="app" class="screen">
-    <header>
-      <div class="header-left">
-        <h2>Furina</h2>
-        <div id="statusDot" class="status online"></div>
-      </div>
-      
-      <div class="header-right">
-        <div id="realtimeClock">00:00</div>
-        <div class="stats">
-          <span class="stat-box">Trust: <b id="trustVal">0</b>%</span>
+    <div id="welcome" class="screen">
+        <h1>ATURAN MAIN</h1>
+        <div class="rules">
+            <p><i class="fas fa-star"></i> Furina adalah bintang utama. Jaga etikamu.</p>
+            <p><i class="fas fa-shield-alt"></i> Anti-Cheat Aktif: Jangan Copy-Paste.</p>
+            <p><i class="fas fa-brain"></i> Furina mengingat kesalahanmu (Sistem Dendam).</p>
         </div>
-      </div>
-    </header>
+        
+        <div class="credits">
+            <p>Developed by: <strong>Frdshdy</strong></p>
+            <a href="https://www.instagram.com/frdshdy_15?igsh=b29reXBxNDFhOHBk" target="_blank" class="social-btn">
+                <i class="fab fa-instagram"></i> frdshdy_15
+            </a>
+        </div>
 
-    <div id="chat"></div>
-
-    <footer>
-      <input 
-        id="userInput" 
-        type="text" 
-        placeholder="Ketik pesan..." 
-        autocomplete="off" 
-        disabled
-      >
-      <button id="sendBtn" disabled>
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
-        </svg>
-      </button>
-    </footer>
-  </div>
-
-  <div id="ending" class="screen">
-    <div class="ending-box">
-      <h2>AKSES DIBERIKAN</h2>
-      <p>Kamu membuktikan konsistensi.<br>Di luar ekspektasi.</p>
-      
-      <div class="flag-container">
-        <span class="flag-label">SECRET FLAG:</span>
-        <code id="flagValue">LOADING...</code>
-      </div>
-
-      <p class="ending-note">
-        Screenshot ini sebagai bukti.<br>
-        — Furina
-      </p>
-      
-      <button onclick="location.reload()" class="btn-restart">Ulangi Sistem</button>
+        <input type="text" id="usernameInput" placeholder="Masukkan namamu, figuran...">
+        <button id="startBtn">Mulai Pertunjukan</button>
     </div>
-  </div>
 
-  <script src="script.js"></script>
+    <div id="app" class="screen">
+        <div class="header">
+            <div class="status-container">
+                <div id="statusDot" class="status-dot"></div>
+                <span id="moodLabel">Theatrical</span>
+            </div>
+            <div id="realtimeClock">00:00:00</div>
+            <div class="trust-box">Trust: <span id="trustVal">10</span></div>
+        </div>
+
+        <div id="chat" class="chat-container"></div>
+
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder="Ketik pesanmu..." disabled>
+            <button id="sendBtn" disabled><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <div id="ending" class="screen">
+        <h2>PANGGUNG USAI</h2>
+        <div class="flag-container">
+            <p>REWARD FLAG:</p>
+            <code id="flagValue">...DECRYPTING...</code>
+        </div>
+        <button onclick="location.reload()">Main Lagi</button>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
