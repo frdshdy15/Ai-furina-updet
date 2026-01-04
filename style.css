@@ -1,5 +1,5 @@
 /* =====================================================
-   FURINA — VISUAL PSYCHOLOGICAL THEME
+   FURINA — TRIAL OF TRUST (FINAL CSS)
    by Firdaus Hidayatullah
 ===================================================== */
 
@@ -42,6 +42,62 @@ body{
 }
 
 /* =========================
+   LOADING SCREEN
+========================= */
+#loading{
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(circle at center, #3b40a0, #090b1f);
+}
+
+.loading-box{
+  width:90%;
+  max-width:360px;
+  text-align:center;
+  animation:fadeIn 1.2s ease;
+}
+
+.loading-title{
+  font-size:2.8rem;
+  letter-spacing:.12em;
+  text-shadow:0 0 25px rgba(120,150,255,.5);
+}
+
+.loading-sub{
+  font-size:.9rem;
+  opacity:.75;
+  margin-bottom:22px;
+}
+
+.loading-bar{
+  width:100%;
+  height:8px;
+  background:rgba(255,255,255,.08);
+  border-radius:99px;
+  overflow:hidden;
+  margin-bottom:14px;
+}
+
+.loading-fill{
+  width:0%;
+  height:100%;
+  background:linear-gradient(90deg,#6d7cff,#9fb3ff);
+  animation:loading 2.8s ease forwards;
+}
+
+.loading-text{
+  font-size:.8rem;
+  opacity:.65;
+}
+
+.loading-credit{
+  margin-top:18px;
+  font-size:.7rem;
+  opacity:.4;
+}
+
+/* =========================
    WELCOME SCREEN
 ========================= */
 #welcome{
@@ -49,7 +105,6 @@ body{
   justify-content:center;
   background:
     radial-gradient(circle at top, #3b3f9f, #0b0d1f);
-  animation:fadeIn 1.2s ease;
 }
 
 .welcome-box{
@@ -68,26 +123,19 @@ body{
     0 25px 80px rgba(0,0,0,.6),
     inset 0 0 40px rgba(120,140,255,.08);
   animation:float 7s ease-in-out infinite;
-  backdrop-filter: blur(6px);
 }
 
 .title{
   font-size:2.6rem;
-  letter-spacing:.06em;
+  letter-spacing:.08em;
   margin-bottom:6px;
-  text-shadow:
-    0 0 18px rgba(120,150,255,.45);
+  text-shadow:0 0 18px rgba(120,150,255,.45);
 }
 
 .subtitle{
   font-size:.9rem;
   opacity:.75;
   margin-bottom:18px;
-}
-
-.subtitle.small{
-  font-size:.75rem;
-  opacity:.6;
 }
 
 #welcome input{
@@ -100,12 +148,11 @@ body{
   color:#fff;
   margin-bottom:14px;
   text-align:center;
-  transition:.25s;
 }
 
 #welcome input:focus{
   border-color:#7b8cff;
-  box-shadow:0 0 0 2px rgba(120,140,255,.2);
+  box-shadow:0 0 0 2px rgba(120,140,255,.25);
 }
 
 #welcome button{
@@ -117,7 +164,7 @@ body{
     linear-gradient(135deg,#5b6dff,#7f8cff);
   color:#fff;
   font-weight:600;
-  letter-spacing:.04em;
+  letter-spacing:.05em;
   cursor:pointer;
   transition:.25s;
 }
@@ -168,7 +215,7 @@ header{
 
 header h2{
   font-size:1.15rem;
-  letter-spacing:.05em;
+  letter-spacing:.06em;
 }
 
 .header-right{
@@ -182,13 +229,12 @@ header h2{
 }
 
 /* =========================
-   CHAT AREA
+   CHAT
 ========================= */
 #chat{
   flex:1;
   padding:18px 16px;
   overflow-y:auto;
-  scroll-behavior:smooth;
 }
 
 .msg{
@@ -220,11 +266,10 @@ header h2{
   color:#e9ecff;
   margin-right:auto;
   border-bottom-left-radius:4px;
-  box-shadow:0 6px 18px rgba(0,0,0,.35);
 }
 
 /* =========================
-   INPUT AREA
+   INPUT
 ========================= */
 footer{
   display:flex;
@@ -248,10 +293,6 @@ footer input{
   color:#fff;
 }
 
-footer input:focus{
-  border-color:#7f8cff;
-}
-
 footer button{
   padding:12px 18px;
   border:none;
@@ -260,11 +301,6 @@ footer button{
     linear-gradient(135deg,#5b6dff,#7f8cff);
   color:#fff;
   cursor:pointer;
-  transition:.25s;
-}
-
-footer button:hover{
-  box-shadow:0 8px 22px rgba(120,140,255,.4);
 }
 
 footer button:disabled,
@@ -273,36 +309,53 @@ footer input:disabled{
 }
 
 /* =========================
-   CELEBRATION
+   ENDING / FLAG
 ========================= */
-#celebration{
-  position:absolute;
-  inset:0;
-  background:rgba(8,10,25,.9);
-  display:flex;
+#ending{
   align-items:center;
   justify-content:center;
-  z-index:9;
+  background:rgba(6,8,25,.95);
 }
 
-.hidden{
-  display:none;
-}
-
-.celebrate-box{
+.ending-box{
+  width:90%;
+  max-width:380px;
   background:
     linear-gradient(180deg,#232a6f,#14183f);
   padding:32px;
   border-radius:22px;
   text-align:center;
   animation:pop .6s ease;
-  box-shadow:0 30px 80px rgba(0,0,0,.6);
 }
 
-.hearts{
-  margin-top:14px;
-  font-size:1.4rem;
-  animation:pulse 1.4s infinite;
+.flag-box{
+  margin:18px 0;
+  padding:14px;
+  border-radius:14px;
+  background:rgba(0,0,0,.25);
+  font-family:monospace;
+  letter-spacing:.08em;
+}
+
+.flag-label{
+  font-size:.7rem;
+  opacity:.6;
+}
+
+#flagValue{
+  font-size:1rem;
+  margin-top:6px;
+}
+
+.ending-note{
+  font-size:.75rem;
+  opacity:.65;
+}
+
+.ending-credit{
+  margin-top:16px;
+  font-size:.7rem;
+  opacity:.5;
 }
 
 /* =========================
@@ -323,12 +376,11 @@ footer input:disabled{
   100%{transform:scale(1);opacity:1}
 }
 
-@keyframes pulse{
-  0%,100%{transform:scale(1)}
-  50%{transform:scale(1.15)}
-}
-
 @keyframes float{
   0%,100%{transform:translateY(0)}
   50%{transform:translateY(-8px)}
+}
+
+@keyframes loading{
+  to{width:100%}
 }
