@@ -1,23 +1,36 @@
+/* =====================================================
+   FURINA — VISUAL PSYCHOLOGICAL THEME
+   by Firdaus Hidayatullah
+===================================================== */
+
 /* =========================
    RESET & BASE
-   ========================= */
+========================= */
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,sans-serif;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Inter,
+    Roboto,
+    sans-serif;
 }
 
 body{
-  background:linear-gradient(180deg,#0e0f14,#141625);
-  color:#e8e9f0;
   height:100vh;
+  background:
+    radial-gradient(1200px 600px at top, #2a2e6f 0%, #0b0d1f 60%),
+    linear-gradient(180deg, #0a0c1a, #06070f);
+  color:#e9ecff;
   overflow:hidden;
 }
 
 /* =========================
-   SCREEN HANDLER
-   ========================= */
+   SCREEN SYSTEM
+========================= */
 .screen{
   position:absolute;
   inset:0;
@@ -29,169 +42,243 @@ body{
 }
 
 /* =========================
-   WELCOME
-   ========================= */
+   WELCOME SCREEN
+========================= */
 #welcome{
   align-items:center;
   justify-content:center;
-  background:radial-gradient(circle at top,#1a1d3a,#0b0c16);
+  background:
+    radial-gradient(circle at top, #3b3f9f, #0b0d1f);
   animation:fadeIn 1.2s ease;
 }
 
 .welcome-box{
   width:90%;
-  max-width:360px;
-  background:rgba(20,22,45,.85);
-  border-radius:18px;
-  padding:28px;
+  max-width:380px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(30,34,90,.92),
+      rgba(14,16,40,.92)
+    );
+  border-radius:22px;
+  padding:30px 26px;
   text-align:center;
-  box-shadow:0 20px 50px rgba(0,0,0,.45);
-  animation:float 6s ease-in-out infinite;
+  box-shadow:
+    0 25px 80px rgba(0,0,0,.6),
+    inset 0 0 40px rgba(120,140,255,.08);
+  animation:float 7s ease-in-out infinite;
+  backdrop-filter: blur(6px);
 }
 
-.welcome-box h1{
-  font-size:2.4rem;
-  margin-bottom:4px;
+.title{
+  font-size:2.6rem;
+  letter-spacing:.06em;
+  margin-bottom:6px;
+  text-shadow:
+    0 0 18px rgba(120,150,255,.45);
 }
 
 .subtitle{
   font-size:.9rem;
-  opacity:.7;
+  opacity:.75;
   margin-bottom:18px;
+}
+
+.subtitle.small{
+  font-size:.75rem;
+  opacity:.6;
 }
 
 #welcome input{
   width:100%;
-  padding:12px;
-  border-radius:10px;
-  border:none;
+  padding:13px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.08);
   outline:none;
-  background:#0f1125;
+  background:#0e1130;
   color:#fff;
   margin-bottom:14px;
   text-align:center;
+  transition:.25s;
+}
+
+#welcome input:focus{
+  border-color:#7b8cff;
+  box-shadow:0 0 0 2px rgba(120,140,255,.2);
 }
 
 #welcome button{
   width:100%;
-  padding:12px;
+  padding:13px;
   border:none;
-  border-radius:10px;
-  background:#4c6fff;
+  border-radius:12px;
+  background:
+    linear-gradient(135deg,#5b6dff,#7f8cff);
   color:#fff;
   font-weight:600;
+  letter-spacing:.04em;
   cursor:pointer;
-  transition:.2s;
+  transition:.25s;
 }
 
 #welcome button:hover{
-  background:#5a7cff;
+  transform:translateY(-1px);
+  box-shadow:0 10px 30px rgba(120,140,255,.35);
 }
 
 .hint{
-  font-size:.75rem;
-  opacity:.6;
-  margin-top:12px;
+  font-size:.72rem;
+  opacity:.55;
+  margin-top:14px;
+}
+
+.credit{
+  margin-top:16px;
+  font-size:.7rem;
+  opacity:.45;
 }
 
 /* =========================
    APP LAYOUT
-   ========================= */
+========================= */
 #app{
   flex-direction:column;
   height:100%;
-  animation:fadeIn .8s ease;
+  animation:fadeIn .6s ease;
 }
 
-/* ===== HEADER ===== */
+/* =========================
+   HEADER
+========================= */
 header{
   padding:14px 16px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  background:rgba(20,22,45,.85);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20,24,70,.95),
+      rgba(12,14,40,.95)
+    );
   border-bottom:1px solid rgba(255,255,255,.05);
+  box-shadow:0 6px 20px rgba(0,0,0,.45);
 }
 
 header h2{
-  font-size:1.2rem;
+  font-size:1.15rem;
+  letter-spacing:.05em;
 }
 
-.info{
+.header-right{
   font-size:.8rem;
-  opacity:.8;
+  opacity:.85;
   text-align:right;
 }
 
-/* ===== CHAT ===== */
+.score b{
+  color:#7f8cff;
+}
+
+/* =========================
+   CHAT AREA
+========================= */
 #chat{
   flex:1;
-  padding:16px;
+  padding:18px 16px;
   overflow-y:auto;
   scroll-behavior:smooth;
 }
 
 .msg{
-  max-width:80%;
-  padding:10px 14px;
-  border-radius:14px;
-  margin-bottom:10px;
-  line-height:1.4;
+  max-width:78%;
+  padding:11px 14px;
+  border-radius:16px;
+  margin-bottom:12px;
+  line-height:1.45;
   animation:slideUp .25s ease;
   white-space:pre-line;
 }
 
 .msg.user{
-  background:#4c6fff;
+  background:
+    linear-gradient(135deg,#5b6dff,#7f8cff);
+  color:#fff;
   margin-left:auto;
   border-bottom-right-radius:4px;
+  box-shadow:0 6px 20px rgba(90,110,255,.35);
 }
 
 .msg.ai{
-  background:#1e213f;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(28,32,80,.95),
+      rgba(18,20,55,.95)
+    );
+  color:#e9ecff;
   margin-right:auto;
   border-bottom-left-radius:4px;
+  box-shadow:0 6px 18px rgba(0,0,0,.35);
 }
 
-/* ===== INPUT ===== */
+/* =========================
+   INPUT AREA
+========================= */
 footer{
   display:flex;
   padding:12px;
   gap:10px;
-  background:rgba(20,22,45,.9);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(18,20,55,.95),
+      rgba(10,12,35,.95)
+    );
 }
 
 footer input{
   flex:1;
   padding:12px;
-  border-radius:10px;
-  border:none;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.08);
   outline:none;
-  background:#0f1125;
+  background:#0e1130;
   color:#fff;
+}
+
+footer input:focus{
+  border-color:#7f8cff;
 }
 
 footer button{
   padding:12px 18px;
   border:none;
-  border-radius:10px;
-  background:#4c6fff;
+  border-radius:12px;
+  background:
+    linear-gradient(135deg,#5b6dff,#7f8cff);
   color:#fff;
   cursor:pointer;
+  transition:.25s;
+}
+
+footer button:hover{
+  box-shadow:0 8px 22px rgba(120,140,255,.4);
 }
 
 footer button:disabled,
 footer input:disabled{
-  opacity:.4;
+  opacity:.35;
 }
 
 /* =========================
    CELEBRATION
-   ========================= */
+========================= */
 #celebration{
   position:absolute;
   inset:0;
-  background:rgba(10,10,30,.85);
+  background:rgba(8,10,25,.9);
   display:flex;
   align-items:center;
   justify-content:center;
@@ -203,34 +290,36 @@ footer input:disabled{
 }
 
 .celebrate-box{
-  background:#1a1d3a;
-  padding:30px;
-  border-radius:18px;
+  background:
+    linear-gradient(180deg,#232a6f,#14183f);
+  padding:32px;
+  border-radius:22px;
   text-align:center;
   animation:pop .6s ease;
+  box-shadow:0 30px 80px rgba(0,0,0,.6);
 }
 
 .hearts{
-  margin-top:12px;
+  margin-top:14px;
   font-size:1.4rem;
   animation:pulse 1.4s infinite;
 }
 
 /* =========================
    ANIMATIONS
-   ========================= */
+========================= */
 @keyframes fadeIn{
   from{opacity:0}
   to{opacity:1}
 }
 
 @keyframes slideUp{
-  from{transform:translateY(10px);opacity:0}
+  from{transform:translateY(12px);opacity:0}
   to{transform:translateY(0);opacity:1}
 }
 
 @keyframes pop{
-  0%{transform:scale(.8);opacity:0}
+  0%{transform:scale(.85);opacity:0}
   100%{transform:scale(1);opacity:1}
 }
 
@@ -241,5 +330,5 @@ footer input:disabled{
 
 @keyframes float{
   0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-6px)}
+  50%{transform:translateY(-8px)}
 }
