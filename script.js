@@ -3,7 +3,7 @@
 /**
  * FURINA SENTIENCE ENGINE (NEURAL-LINK MOCKUP)
  * Menggunakan Probabilitas Kontekstual & Weighted Random
- * Tanpa API - Full Offline - Machine Learning Logic
+ * Tanpa API - Machine Learning Logic
  */
 
 const STATE = {
